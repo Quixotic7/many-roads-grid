@@ -1,4 +1,5 @@
 # many-roads
+
 A simple script switcher / menu system for monome grid iii.
 
 ## How to install
@@ -9,11 +10,9 @@ Connect your monome grid using the [diii](https://monome.org/diii/) browser util
 
 ## In use
 
-On launch many-roads iterates over the lua scripts currently installed on the monome grid, and illuminates an led per script (filtering out init.lua, lib.lua, pset files etc.).  Pressing the corresponding button launches that script.  A listing of script -> button assignments is output to the dii terminal on script launch.
+On launch many-roads iterates over the lua scripts currently installed on the monome grid, and illuminates an led per script (filtering out init.lua, lib.lua, pset files etc.). Pressing the corresponding key launches that script. A listing of script to key assignments is output to the dii terminal on script launch.
 
-There's currently a hard limit of 16 scripts (i.e. one full grid row).  I'll experiment with extending that capability for a future version.
-
-Many-roads was built and tested using a monome 128 grid (late 2022 edition). It should also run on a 256 grid, but is currently untested.
+Many-roads can launch as many scripts as your grid has keys, and is written to be grid-size agnostic. The script was built and tested using a monome 128 grid (late 2022 edition). It should also run on a 256 grid, but is currently untested.
 
 I may add further features in the future.
 
