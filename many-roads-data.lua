@@ -52,12 +52,10 @@ MR.load_print = function(x, y)
     print('loading ' .. i .. ': ' .. MR.scripts[i])
 end
 
-MR.is_valid = function(x, y, z)
-    if #MR.scripts < 1 then
-        return false
-    end
-    if z == 0 then
-        return false
-    end
-    return true
+MR.is_valid = function(x,y,z)
+    if z ~= 1 then return false end
+    if #MR.scripts < 1 then return false end
+    local index = MR.coord_to_index(x,y)
+    if MR.scripts[index] ~= nil then return true end
+    return false
 end
