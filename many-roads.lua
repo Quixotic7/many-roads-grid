@@ -1,46 +1,44 @@
 -- many-roads for iii - boreal ground
-print("many-roads v1.1")
-local exclude_files = {'many-roads.lua', 'init.lua', 'lib.lua'}
-local led_active = 4
-local grid_size_x = grid_size_x()
-local grid_size = grid_size_x * grid_size_y()
-function index_to_coord(index)
-    local x = ((index - 1) % grid_size_x) + 1
-    local y = math.floor((index - 1) / grid_size_x) + 1
-    return x, y
+-- updated by Michael Jones
+-- print("many-roads v1.2")
+iii_x = 1
+iii_y = 1
+
+fs_run_file("many-roads-data.lua")
+
+-- Forces OOM error to reset device
+local function oom_nuke()
+    for ch = 1,16 do midi_cc(123, 0, ch) end
+    local nuke = {}
+    while true do nuke[#nuke + 1] = string.rep("\0", 1000000) end
 end
-function coord_to_index(x, y)
-    local i = x + ((y - 1) * (grid_size_x))
-    return i
-end
-local exclude_lookup = {}
-for i = 1, #exclude_files do
-    exclude_lookup[exclude_files[i]] = true
-end
-local filtered_list = {}
-for _, i in ipairs(fs_list_files()) do
-    if i:match("%.lua$") and not exclude_lookup[i] and not i:match("^pset_") then
-        if #filtered_list <= grid_size then
-            table.insert(filtered_list, i)
-        end
-    end
-end
-local scripts = filtered_list
-print('-------')
-print('installed iii scripts:')
-for i = 1, #scripts do
-    print(i .. ': ' .. scripts[i])
-end
-grid_led_all(0)
-for i = 1, #scripts do
-    local x, y = index_to_coord(i)
-    grid_led(x, y, led_active)
-end
-grid_refresh()
+
 function event_grid(x, y, z)
-    if z == 1 then
-        local i = coord_to_index(x, y)
-        print('loading ' .. i .. ': ' .. scripts[i])
-        require(scripts[i])
+    -- print('x ' .. x .. ' y :' .. y .. ' z :' .. z)
+    if not MR or not MR.is_valid(x,y,z) then return end
+
+    local sfn = event_grid
+    MR.load_print(x,y)
+    local sel_i = MR.coord_to_index(x,y)
+    local n = MR.scripts[sel_i]
+    MR = nil
+    event_arc = nil
+    collectgarbage()
+    require(n)
+
+    -- This will wrap the event_grid from the script, detect 3 button presses and restart device when detected
+    -- Comment out if you don't want this
+    local script_key = (event_grid ~= sfn) and event_grid or nil
+    local prev, iii = 0, 0
+    event_grid = function(x, y, z)
+        if x == iii_x and y == iii_y and z == 1 then
+            local t = get_time()
+            iii = (t - prev <= 0.5) and iii + 1 or 1
+            prev = t
+            if iii >= 3 then oom_nuke() end
+        end
+        if script_key then return script_key(x, y, z) end
     end
 end
+
+MR.init()
