@@ -16,6 +16,10 @@ Many-roads can launch as many scripts as your grid has keys, and is written to b
 
 I may add further features in the future.
 
+## Restart
+
+Do a triple click of the top left key to restart the device and return to many roads. This is done by forcing a OOM error
+
 ## Acknowledgements
 
 Credit to [monome](https://monome.org/) for creating the monome grid, and all their work on implementing the iii lua scripting environment.
