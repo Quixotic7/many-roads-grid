@@ -9,9 +9,6 @@ MR.index_to_coord = function(index)
     return x, y
 end
 MR.coord_to_index = function(x, y)
-
-    print('x ' .. x .. ' y :' .. y)
-    print('MR.grid_size_x ' .. MR.grid_size_x)
     local i = x + ((y - 1) * (MR.grid_size_x))
     return i
 end
@@ -68,7 +65,10 @@ MR.load_print = function(x,y)
 end
 
 MR.is_valid = function(x,y,z)
+    if z ~= 1 then return false end
     if #MR.scripts < 1 then return false end
     if z == 0 then return false end
-    return true
+    local index = MR.coord_to_index(x,y)
+    if MR.scripts[index] ~= nil then return true end
+    return false
 end
