@@ -26,3 +26,5 @@ Credit to [monome](https://monome.org/) for creating the monome grid, and all th
 Particular thanks to tehn for explaining how to retrieve the file listing.
 
 I learned a huge amount about writing lua through reading monome iii and norns scripts generously shared on [lines](https://llllllll.co/).
+
+Memory optimisations and restart featured added by [Quixotic7](https://github.com/Quixotic7).
