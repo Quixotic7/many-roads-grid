@@ -23,7 +23,7 @@ MR.init = function()
         exclude_lookup[MR.exclude_files[i]] = true
     end
     for _, i in ipairs(fs_list_files()) do
-        if i:match("%.lua$") and not exclude_lookup[i] and not i:match("^pset_") then
+        if i:match("%.lua$") and not exclude_lookup[i] and not i:match("^pset_") and not i:match("^data_") and not i:match("^d_") and not i:match("^state_") then
             if #MR.scripts <= MR.grid_size then
                 table.insert(MR.scripts, i)
             end
